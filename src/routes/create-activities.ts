@@ -2,9 +2,6 @@ import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import {z} from 'zod'
 
-
-
-
 import {dayjs} from '../lib/dayjs'
 import { prisma } from "../lib/prisma";
 import { ClientError } from "../errors/client-error";
@@ -39,7 +36,7 @@ export async function createActivity(app:FastifyInstance){
             throw new ClientError('invalid activities date')
         }
 
-        if(dayjs(occurs_at).isBefore(trip.ends_at)){
+        if(dayjs(occurs_at).isAfter(trip.ends_at)){
             throw new ClientError('invalid activities date')
         }
 

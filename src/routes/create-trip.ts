@@ -4,7 +4,7 @@ import {z} from 'zod'
 
 import nodemailer from 'nodemailer'
 
-
+import { env } from "../env";
 import {dayjs} from '../lib/dayjs'
 import { prisma } from "../lib/prisma";
 import { getMailClient } from "../lib/mail";
@@ -64,7 +64,7 @@ export async function createTrip(app:FastifyInstance){
 
         const mail = await getMailClient()
 
-        const confirmationLink = `http://localhost:3333/trips/${trip.id}/confirm`
+        const confirmationLink = `${env.API_BASE_URL}/trips/${trip.id}/confirm`
 
         const message = await mail.sendMail({
             from:{

@@ -10,7 +10,7 @@ import { ClientError } from "../errors/client-error";
 
 
 export async function updateTrip(app:FastifyInstance){
-    app.withTypeProvider<ZodTypeProvider>().put('/trips', {
+    app.withTypeProvider<ZodTypeProvider>().put('/trips/:tripId', {
         schema: {
             params:z.object({
                 tripId:z.string().uuid()
