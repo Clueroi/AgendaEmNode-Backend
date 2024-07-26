@@ -7,52 +7,51 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-model Trip{
-  id String @id @default(uuid())
-  destination String 
-  confirmed Boolean @default(false)
-  starts_at DateTime
-  ends_at DateTime
-  created_at DateTime @default(now())
+model Trip {
+  id          String   @id @default(uuid())
+  destination String
+  confirmed   Boolean  @default(false)
+  starts_at   DateTime
+  ends_at     DateTime
+  created_at  DateTime @default(now())
 
   participants Participant[]
-  activities Activity[]
-  links Link[]
+  activities   Activity[]
+  links        Link[]
 
   @@map("trips")
 }
 
-model Participant{
-  id String @id @default(uuid())
-  name String
-  email String
+model Participant {
+  id        String  @id @default(uuid())
+  name      String
+  email     String
   confirmed Boolean @default(false)
-  is_owner Boolean @default(false)
+  is_owner  Boolean @default(false)
 
-  trip Trip @relation(fields:[trip_id], references:[id])
+  trip    Trip   @relation(fields: [trip_id], references: [id])
   trip_id String
 
   @@map("participants")
 }
 
-model Activity{
-  id String @id @default(uuid())
-  title String
+model Activity {
+  id        String   @id @default(uuid())
+  title     String
   occurs_at DateTime
 
-  trip Trip @relation(fields:[trip_id], references:[id])
+  trip    Trip   @relation(fields: [trip_id], references: [id])
   trip_id String
 
   @@map("activities")
 }
 
-model Link{
-  id String @id @default(uuid())
+model Link {
+  id    String @id @default(uuid())
   title String
-  url String
+  url   String
 
-  trip Trip @relation(fields:[trip_id], references:[id])
+  trip    Trip   @relation(fields: [trip_id], references: [id])
   trip_id String
 
   @@map("links")
