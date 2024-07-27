@@ -18,6 +18,7 @@ import { getParticipant } from './routes/get-participant-detail';
 import { errorHandler } from './error-handler';
 import { env } from './env';
 import { updateActivity } from './routes/update-activity';
+import { deleteActivity } from './routes/delete-activity';
 
 const app = fastify()
 
@@ -31,19 +32,23 @@ app.setSerializerCompiler(serializerCompiler);
 app.setErrorHandler(errorHandler)
 
 
+app.register(getActivity)
+app.register(getLinks)
+app.register(getParticipants)
+app.register(getTripDetails)
+app.register(getParticipant)
+
+app.register(createLink)
+app.register(createInvite)
 app.register(createTrip)
 app.register(confirmTrip)
 app.register(confirmParticipant)
 app.register(createActivity)
-app.register(getActivity)
-app.register(createLink)
-app.register(getLinks)
-app.register(getParticipants)
-app.register(createInvite)
-app.register(getTripDetails)
-app.register(getParticipant)
+
 app.register(updateTrip)
 app.register(updateActivity)
+
+app.register(deleteActivity)
 
 app.listen({port: env.PORT}).then(()=>{
     console.log('Server Running')

@@ -1,7 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import {z} from 'zod'
-
 import {dayjs} from '../lib/dayjs'
 import { prisma } from "../lib/prisma";
 import { ClientError } from "../errors/client-error";
@@ -9,19 +8,15 @@ import { ClientError } from "../errors/client-error";
 
 
 
-export async function updateActivity(app:FastifyInstance){
+export async function deleteActivity(app:FastifyInstance){
     app.withTypeProvider<ZodTypeProvider>().put('/trips/:tripId/activities', {
         schema: {
             params:z.object({
                 tripId:z.string().uuid()
-            }),
-            body: z.object({
-                title:z.string().min(4)             
             })
         },
     }, async (req)=>{
         const {tripId} = req.params
-        const {title} = req.body
 
         const trip = await prisma.trip.findUnique({
             where:{id:tripId}
@@ -32,11 +27,8 @@ export async function updateActivity(app:FastifyInstance){
         }
 
 
-        const activity = await prisma.activity.update({
-            where:{id:tripId},
-            data:{
-                title
-            }
+        const activity = await prisma.activity.delete({
+            where:{id:tripId}
         })
 
         return {activity}
